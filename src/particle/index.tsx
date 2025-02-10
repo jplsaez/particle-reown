@@ -3,7 +3,7 @@ import { AuthCoreContextProvider } from '@particle-network/auth-core-modal';
 import { createAppKit } from '@reown/appkit/react';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import { WagmiProvider } from 'wagmi';
-import { EthersAdapter } from '@reown/appkit-adapter-ethers';
+//import { EthersAdapter } from '@reown/appkit-adapter-ethers';
 import { type ReactNode } from 'react';
 import { mainnet, goerli } from '@reown/appkit/networks'
 
@@ -45,7 +45,7 @@ const wagmiAdapter = new WagmiAdapter({
 
 
 const web3Modal = createAppKit({
-	adapters: [new EthersAdapter()],
+	adapters: [wagmiAdapter],
     networks: [mainnet, goerli],
 	projectId,
 	metadata,
