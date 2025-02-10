@@ -1,7 +1,9 @@
 import { AuthCoreContextProvider } from '@particle-network/auth-core-modal';
 //import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react';
 import { createAppKit } from '@reown/appkit/react';
-import { EthersAdapter } from '@reown/appkit-adapter-ethers';
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
+import { WagmiProvider } from 'wagmi';
+//import { EthersAdapter } from '@reown/appkit-adapter-ethers';
 import { type ReactNode } from 'react';
 import { mainnet, goerli } from '@reown/appkit/networks'
 
@@ -36,8 +38,14 @@ const metadata = {
     icons: ['https://avatars.mywebsite.com/'],
 };
 
+const wagmiAdapter = new WagmiAdapter({
+    networks: [mainnet, goerli],
+    projectId
+});
+
+
 const web3Modal = createAppKit({
-	adapters: [new EthersAdapter()],
+	adapters: [wagmiAdapter],
     networks: [mainnet, goerli],
 	projectId,
 	metadata,
@@ -65,7 +73,9 @@ const ParticleProvider = ({ children }: { children: ReactNode }) => {
                 web3Modal,
             }}
         >
-            {children}
+            <WagmiProvider config={wagmiAdapter.wagmiConfig}>
+                {children}
+            </WagmiProvider>
         </AuthCoreContextProvider>
     );
 };
